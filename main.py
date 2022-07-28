@@ -1,7 +1,8 @@
 from yeelight import Bulb
+from concurrent.futures import ThreadPoolExecutor
+import random
 import json
 import time
-from concurrent.futures import ThreadPoolExecutor
 
 f = open("data.json")
 data = json.load(f)
@@ -21,13 +22,14 @@ bulbs = [
 ]
 
 def flicker(bulb):
-  for i in range (10):
+  # rand = random.Random(31)
+  rand = 3
+  for i in range (rand):
     bulb.turn_on()
-    time.sleep(1)
+    # time.sleep(1)
     bulb.turn_off()
-    time.sleep(1)
+    # time.sleep(1)
 
 with ThreadPoolExecutor() as ex:
   for bulb in bulbs:
     ex.submit(flicker,bulb)
-
