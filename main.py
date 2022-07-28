@@ -7,13 +7,9 @@ import time
 f = open("data.json")
 data = json.load(f)
 
-firstLight = data[0]["ip"]
-secondLight = data[1]["ip"]
-thirdLight = data[2]["ip"]
-
-bulb1 = Bulb(firstLight)
-bulb2 = Bulb(secondLight)
-bulb3 = Bulb(thirdLight)
+bulb1 = Bulb(data[0]["ip"])
+bulb2 = Bulb(data[1]["ip"])
+bulb3 = Bulb(data[2]["ip"])
 
 bulbs = [
   bulb1,
@@ -31,8 +27,11 @@ def flicker(bulb):
     bulb.turn_on(effect="smooth")
     bulb.set_rgb(rand1,rand2,rand3)
     time.sleep(5)
+    bulb.turn_on(effect="smooth")
+    bulb.set_rgb(255,255,255)
+    time.sleep(1)
     bulb.turn_off()
-    time.sleep(5)
+    print(i)
 
 with ThreadPoolExecutor() as ex:
   for bulb in bulbs:
