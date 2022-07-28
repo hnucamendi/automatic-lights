@@ -1,12 +1,10 @@
 from yeelight import Bulb
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 f = open("data.json")
 data = json.load(f)
-
-# print(yeelight.discover_bulbs())
-# print(data[0]["ip"])
 
 firstLight = data[0]["ip"]
 secondLight = data[1]["ip"]
@@ -16,6 +14,12 @@ bulb1 = Bulb(firstLight)
 bulb2 = Bulb(secondLight)
 bulb3 = Bulb(thirdLight)
 
+bulbs = [
+  bulb1,
+  bulb2,
+  bulb3
+]
+
 def flicker(bulb):
   for i in range (10):
     bulb.turn_on()
@@ -23,7 +27,7 @@ def flicker(bulb):
     bulb.turn_off()
     time.sleep(1)
 
+with ThreadPoolExecutor() as ex:
+  for bulb in bulbs:
+    ex.submit(flicker,bulb)
 
-flicker(bulb1)
-flicker(bulb2)
-flicker(bulb3)
