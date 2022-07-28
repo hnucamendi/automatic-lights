@@ -22,14 +22,19 @@ bulbs = [
 ]
 
 def flicker(bulb):
-  # rand = random.Random(31)
-  rand = 3
-  for i in range (rand):
-    bulb.turn_on()
-    # time.sleep(1)
+  rand1 = random.randint(0,256)
+  rand2 = random.randint(0,256)
+  rand3 = random.randint(0,256)
+  print(rand1,rand2,rand3)
+  # bulb.set_rgb(rand1,rand2,rand3)
+  for i in range (3):
+    bulb.turn_on(effect="smooth")
+    bulb.set_rgb(rand1,rand2,rand3)
+    time.sleep(5)
     bulb.turn_off()
-    # time.sleep(1)
+    time.sleep(5)
 
 with ThreadPoolExecutor() as ex:
   for bulb in bulbs:
+    time.sleep(1.5)
     ex.submit(flicker,bulb)
